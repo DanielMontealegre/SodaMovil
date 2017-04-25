@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "966474659983",
+    "firebase_url": "https://soda-movil-fc2c8.firebaseio.com",
+    "project_id": "soda-movil-fc2c8",
+    "storage_bucket": "soda-movil-fc2c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966474659983:android:329f01969e63cfde",
+        "android_client_info": {
+          "package_name": "com.example.usuario.sodamovil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "966474659983-uh8blo1qhavfogn4upsh0j9jg0s9j88l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTYLDu1tC9sszs3XLaQZkvlaVW1HJ8Rz4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
