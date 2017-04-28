@@ -13,6 +13,10 @@ import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
 import com.example.usuario.sodamovil.Entidades.Horario;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.Entidades.Usuario;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +28,11 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
     EditText nombre_restaurante;
     EditText descripcion_restaurante;
+    EditText horario_restaurante;
+    EditText ubicacion_restaurante;
     static int  HORARIO_REQUEST = 1;
     static int  UBICACION_REQUEST = 1;
+    static int PLACE_PICKER_REQUEST = 3;
 
 
     @Override
@@ -43,15 +50,28 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
         nombre_restaurante = (EditText) findViewById(R.id.nombreReId);
         descripcion_restaurante = (EditText) findViewById(R.id.descripReId);
+        ubicacion_restaurante = (EditText) findViewById(R.id.etUbicacion);
+        horario_restaurante = (EditText) findViewById(R.id.etHorario);
+        horario_restaurante.setEnabled(false);
+        ubicacion_restaurante.setFocusable(false);
         //Programamos el evento onclick
-
         MiBoton.setOnClickListener(new View.OnClickListener(){
 
             @Override
 
             public void onClick(View arg0) {
-                Intent intento = new Intent(getApplicationContext(), UbicacionRestauranteActivity.class);
-                startActivityForResult(intento,UBICACION_REQUEST );
+                /*Intent intento = new Intent(getApplicationContext(), UbicacionRestauranteActivity.class);
+                startActivityForResult(intento,UBICACION_REQUEST );*/
+                PlacePicker.IntentBuilder builder= new PlacePicker.IntentBuilder();
+                Intent intent;
+                try {
+                    intent = builder.build(AgregarRestauranteActivity.this);
+                    startActivityForResult(intent,PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
             }
 
         });
@@ -99,6 +119,21 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        if(requestCode==PLACE_PICKER_REQUEST){
+            if(resultCode==RESULT_OK){
+                Place place = PlacePicker.getPlace(this,data);
+                String address = ""+place.getAddress();
+                ubicacion_restaurante.setText(address);
+            }
+        }
+        if(requestCode==HORARIO_REQUEST){
+            if(resultCode==RESULT_OK){
+                horario_restaurante.setText(VariablesGlobales.getInstance().getHorario().toString());
+            }
+        }
+    }
 
 
 

@@ -45,6 +45,18 @@ public class Horario {
         dias.get(position).setHoraCerrar(horaCerrar);
     }
 
+    @Override
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        for (Dia dia: dias) {
+            s.append(dia.getNombre()+" : ");
+            s.append(dia.toString());
+            if(dia !=dias.get(dias.size()-1))
+                s.append("\n");
+        }
+        return s.toString();
+    }
+
     public void removeDia(int position){
         dias.remove(position);
     }

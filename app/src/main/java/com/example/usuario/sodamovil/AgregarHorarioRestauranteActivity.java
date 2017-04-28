@@ -131,6 +131,8 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
         OnclickDelTextView(R.id.tvJue);
         OnclickDelTextView(R.id.tvVie);
         OnclickDelTextView(R.id.tvSab);
+        OnclickDelTextView(R.id.tvDom);
+
 
 
 
@@ -298,6 +300,25 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
             }// fin del onclick
         });
     }// fin de OnclickDelTextView
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            case R.id.action_add_hours:
+                Intent output = new Intent();
+                setResult(RESULT_OK, output);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void abrirTimePickerAbrir(){
         final TimePicker timePicker = new TimePicker(this);
