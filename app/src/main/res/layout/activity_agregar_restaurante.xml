@@ -42,18 +42,13 @@
                 android:id="@+id/descripReId" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:hint="Horario"
-                android:id="@+id/horarioReId" />
-        </android.support.design.widget.TextInputLayout>
+        <Button
+            android:text="Agregar Horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/irAhorarioAgregar"
+            android:drawableRight="@drawable/ic_alarm_black_24dp"
+            android:gravity="center|center_vertical" />
 
         <Button
             android:text="Agregar Ubicación"

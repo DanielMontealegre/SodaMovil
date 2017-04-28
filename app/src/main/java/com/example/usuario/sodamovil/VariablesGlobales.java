@@ -1,5 +1,6 @@
 package com.example.usuario.sodamovil;
 
+import com.example.usuario.sodamovil.Entidades.Horario;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -11,6 +12,8 @@ import com.google.android.gms.maps.model.LatLng;
 public class VariablesGlobales {
 
     public LatLng posicionAgregarRestaurante;
+    private Horario horario;
+
 
     private static VariablesGlobales instance = null;
 
@@ -20,6 +23,19 @@ public class VariablesGlobales {
         return instance;
     }
 
+    public LatLng getPosicionAgregarRestaurante() {
+        return posicionAgregarRestaurante;
+    }
 
+    public void setPosicionAgregarRestaurante(LatLng posicionAgregarRestaurante) {
+        this.posicionAgregarRestaurante = posicionAgregarRestaurante;
+    }
 
+    public Horario getHorario() {
+        return horario;
+    }
+
+    public void setHorario(Horario horario) {
+        this.horario = horario;
+    }
 }// fin de la clase de variables globales

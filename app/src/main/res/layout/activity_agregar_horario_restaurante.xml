@@ -26,7 +26,8 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.example.usuario.horario.MainActivity"
-        android:background="@android:color/background_light">
+        android:background="@android:color/background_light"
+        android:weightSum="1">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -167,9 +168,16 @@
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
             android:id="@+id/listaDias"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:layout_weight="0.54" />
+
+        <Button
+            android:text="Finalizar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFinalizar" />
 
     </LinearLayout>
 
