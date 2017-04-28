@@ -13,6 +13,13 @@ public class Hora {
         this.minutos=minutos;
     }
 
+    public Hora(){
+        this.hora=0000;
+        this.minutos=0000;
+    }
+
+
+
     public int getMinutos() {
         return minutos;
     }
