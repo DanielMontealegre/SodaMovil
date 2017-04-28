@@ -1,6 +1,7 @@
 package com.example.usuario.sodamovil;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.example.usuario.sodamovil.Entidades.Dia;
 import com.example.usuario.sodamovil.Entidades.Hora;
 import com.example.usuario.sodamovil.Entidades.Horario;
 import com.example.usuario.sodamovil.Fragmentos.AdaptadorHorario;
+import com.example.usuario.sodamovil.Utilidades.*;
 
 import java.util.ArrayList;
 
@@ -76,10 +78,9 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
 
         });
 
-        // alambramos el TextView
+
         tvHoraCerrar = (TextView) findViewById(R.id.tvHoraCerrar);
 
-        //Programamos el evento onclick
 
         tvHoraCerrar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -89,24 +90,41 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
 
         });
 
-        // alambramos el Button
         Button MiButton = (Button) findViewById(R.id.buttonAgregarHora);
 
-        //Programamos el evento onclick
+
 
         MiButton.setOnClickListener(new View.OnClickListener(){
-
             @Override
-
             public void onClick(View arg0) {
                 actualizaHorarios();
                 Mensaje("Horas Asignadas.");
+
                 limpiaDiaSeleccionados();
                 RecyclerView rv = (RecyclerView) findViewById(R.id.listaDias);
                 rv.getAdapter().notifyDataSetChanged();
             }
 
         });
+
+
+        Button MiButton2 = (Button) findViewById(R.id.btnFinalizar);
+
+        //Programamos el evento onclick
+
+        MiButton2.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+
+            public void onClick(View arg0) {
+                Intent output = new Intent();
+                setResult(RESULT_OK, output);
+                finish();
+            }
+
+        });
+
+
         OnclickDelTextView(R.id.tvLun);
         OnclickDelTextView(R.id.tvMar);
         OnclickDelTextView(R.id.tvMier);
@@ -114,6 +132,8 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
         OnclickDelTextView(R.id.tvVie);
         OnclickDelTextView(R.id.tvSab);
         OnclickDelTextView(R.id.tvDom);
+
+
 
 
 
@@ -221,6 +241,7 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
         }
 
         horario.setDias(nuevoHorario);
+        VariablesGlobales.getInstance().setHorario(horario);
     }
 
     public void OnclickDelTextView(int ref) {
@@ -279,6 +300,25 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
             }// fin del onclick
         });
     }// fin de OnclickDelTextView
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            case R.id.action_add_hours:
+                Intent output = new Intent();
+                setResult(RESULT_OK, output);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void abrirTimePickerAbrir(){
         final TimePicker timePicker = new TimePicker(this);

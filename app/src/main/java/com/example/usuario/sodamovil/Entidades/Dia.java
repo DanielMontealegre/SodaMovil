@@ -16,6 +16,12 @@ public class Dia {
         this.horaCerrar = horaCerrar;
     }
 
+    public Dia() {
+        this.nombre = "";
+        this.horaAbrir = new Hora();
+        this.horaCerrar =  new Hora();
+    }
+
     public String getNombre() {
 
         return nombre;

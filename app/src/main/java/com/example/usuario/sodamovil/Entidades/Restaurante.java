@@ -18,11 +18,11 @@ public class Restaurante {
     private Bitmap imagen; //http://stackoverflow.com/questions/9357668/how-to-store-image-in-sqlite-database
     private Double latitudesH;
     private Double latitudesV;
-    private String horario;
+    private Horario horario;
     private List<String> usuarios;
 
 
-    public Restaurante(String codigo, String nombre, String descripcion, Bitmap imagen, Double latitudesH, Double latitudesV, String horario, List<String> usuarios) {
+    public Restaurante(String codigo, String nombre, String descripcion, Bitmap imagen, Double latitudesH, Double latitudesV, Horario horario, List<String> usuarios) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -40,7 +40,7 @@ public class Restaurante {
         this.imagen = null;
         this.latitudesH = 0.0;
         this.latitudesV = 0.0;
-        this.horario="";
+        this.horario= new Horario();
         this.usuarios= new LinkedList<>();
     }
 
@@ -92,11 +92,11 @@ public class Restaurante {
         this.codigo = codigo;
     }
 
-    public String getHorario() {
+    public Horario getHorario() {
         return horario;
     }
 
-    public void setHorario(String horario) {
+    public void setHorario(Horario horario) {
         this.horario = horario;
     }
 
