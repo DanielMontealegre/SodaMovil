@@ -1,59 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card1"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        card_view:cardCornerRadius="6dp"
-        card_view:cardElevation="10dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardPreventCornerOverlap="false">
-
-        <ImageView
-            android:id="@+id/imagMenu"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"/>
-
-        <TextView
-            android:id="@+id/Comida"
-            android:padding="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
-            android:layout_marginBottom="32dp"
-            android:textStyle="italic"/>
-
-        <TextView
-            android:id="@+id/Precio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="#8c000000"
-            android:textColor="#ffe3e3e3"
-            android:layout_gravity="left|bottom"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"/>
-
-
-    </android.support.v7.widget.CardView>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/background_header_seccion_inicio"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Lo mas pedido"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/color_light" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reciclador"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
-
 </LinearLayout>

@@ -21,9 +21,9 @@ public class AdaptadorMenu extends RecyclerView.Adapter<AdaptadorMenu.MenuViewHo
 
         public MenuViewHolder(View v) {
             super(v);
-            nombre = (TextView) v.findViewById(R.id.Comida);
-            precio = (TextView) v.findViewById(R.id.Precio);
-            imagen = (ImageView) v.findViewById(R.id.imagMenu);
+            nombre = (TextView) v.findViewById(R.id.nombre_comida);
+            precio = (TextView) v.findViewById(R.id.precio_comida);
+            imagen = (ImageView) v.findViewById(R.id.miniatura_comida);
         }
     }
 
@@ -39,7 +39,8 @@ public class AdaptadorMenu extends RecyclerView.Adapter<AdaptadorMenu.MenuViewHo
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.fragmento_menu, viewGroup, false);
+                .inflate(R.layout.item_lista_menu, viewGroup, false);
+
         return new MenuViewHolder(v);
     }
 
@@ -52,7 +53,7 @@ public class AdaptadorMenu extends RecyclerView.Adapter<AdaptadorMenu.MenuViewHo
                 .centerCrop()
                 .into(viewHolder.imagen);
         viewHolder.nombre.setText(item.getNombre());
-        viewHolder.precio.setText("$" + item.getPrecio());
+        viewHolder.precio.setText("₡" + item.getPrecio());
 
     }
 
