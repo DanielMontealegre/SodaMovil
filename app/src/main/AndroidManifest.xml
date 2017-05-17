@@ -63,9 +63,12 @@
         <activity
             android:name=".UbicacionRestauranteActivity"
             android:label="@string/title_activity_ubicacion_restaurante" />
-        <activity android:name=".AgregarHorarioRestauranteActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+        <activity
+            android:name=".AgregarHorarioRestauranteActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RestauranteActivity"
+            android:label="@string/title_activity_restaurante"></activity>
     </application>
 
 </manifest>
