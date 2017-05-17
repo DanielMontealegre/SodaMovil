@@ -27,11 +27,6 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/reciclador"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
         <TextView
             android:id="@+id/Comida"
             android:padding="10dp"
@@ -55,8 +50,10 @@
 
     </android.support.v7.widget.CardView>
 
-
-
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/reciclador"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

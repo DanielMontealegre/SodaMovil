@@ -39,7 +39,7 @@ public class AdaptadorMenu extends RecyclerView.Adapter<AdaptadorMenu.MenuViewHo
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.fragmento_menu2, viewGroup, false);
+                .inflate(R.layout.fragmento_menu, viewGroup, false);
         return new MenuViewHolder(v);
     }
 
