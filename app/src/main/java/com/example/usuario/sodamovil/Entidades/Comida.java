@@ -24,10 +24,10 @@ public class Comida {
 
 
     static {
-        COMIDAS_POPULARES.add(new Comida(5, "Camarones Tismados", R.drawable.ic_add_location_black_24dp));
-        COMIDAS_POPULARES.add(new Comida(3.2f, "Rosca Herbárea", R.drawable.ic_alarm_black_24dp));
-        COMIDAS_POPULARES.add(new Comida(12f, "Sushi Extremo", R.drawable.ic_lock_black_24dp));
-        COMIDAS_POPULARES.add(new Comida(9, "Sandwich Deli", R.drawable.sandwich));
+        COMIDAS_POPULARES.add(new Comida(5, "Camarones Tismados", R.drawable.camaron));
+        COMIDAS_POPULARES.add(new Comida(3.2f, "Rosca Herbárea", R.drawable.rosca));
+        COMIDAS_POPULARES.add(new Comida(12f, "Sushi Extremo", R.drawable.sushi));
+        COMIDAS_POPULARES.add(new Comida(9, "Sandwich Deli", R.drawable.sand));
     }
 
     public float getPrecio() {
