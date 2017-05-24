@@ -3,6 +3,7 @@ package com.example.usuario.sodamovil.Fragmentos;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ public class MenuFragmento extends Fragment {
         View view = inflater.inflate(R.layout.fragmento_menu, container, false);
 
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
-        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new GridLayoutManager(getActivity(), 2);
         reciclador.setLayoutManager(layoutManager);
 
         adaptador = new AdaptadorMenu();

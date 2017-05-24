@@ -30,6 +30,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
     EditText descripcion_restaurante;
     EditText horario_restaurante;
     EditText ubicacion_restaurante;
+    EditText telefono_restaurante;
     static int  HORARIO_REQUEST = 1;
     static int  UBICACION_REQUEST = 1;
     static int PLACE_PICKER_REQUEST = 3;
@@ -46,11 +47,13 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
         Button MiBoton2 = (Button) findViewById(R.id.irAhorarioAgregar);
         Button AgregarRestaurante = (Button) findViewById(R.id.btnAgregarRestaurante);
+        Button AgregarPlatos= (Button) findViewById(R.id.btnAgregarPlatillos);
 
 
         nombre_restaurante = (EditText) findViewById(R.id.nombreReId);
         descripcion_restaurante = (EditText) findViewById(R.id.descripReId);
         ubicacion_restaurante = (EditText) findViewById(R.id.etUbicacion);
+        telefono_restaurante=(EditText) findViewById(R.id.etTelf);
         horario_restaurante = (EditText) findViewById(R.id.etHorario);
         horario_restaurante.setEnabled(false);
         ubicacion_restaurante.setFocusable(false);
@@ -87,6 +90,16 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
         });
 
+        AgregarPlatos.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+
+            public void onClick(View arg0) {
+                Intent intento = new Intent(getApplicationContext(), AgregarPlatosRestauranteActivity.class);
+                startActivity(intento);
+            }
+
+        });
 
 
         AgregarRestaurante.setOnClickListener(new View.OnClickListener(){
@@ -100,6 +113,8 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         });
         getSupportActionBar().setTitle("Agregar Restaurante");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
     }
 
@@ -144,6 +159,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         Horario horario;
         final String nombre=nombre_restaurante.getText().toString();
         String descripcion= descripcion_restaurante.getText().toString();
+        String telef=telefono_restaurante.getText().toString();
 
         double latitud= VariablesGlobales.getInstance().posicionAgregarRestaurante.latitude;
         double longitud= VariablesGlobales.getInstance().posicionAgregarRestaurante.longitude;
@@ -157,6 +173,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         final Restaurante restaurante = new Restaurante();
         restaurante.setNombre(nombre);
         restaurante.setDescripcion(descripcion);
+        restaurante.setTelefono(telef);
         restaurante.setHorario(horario);
         restaurante.setLatitudesH(latitud);
         restaurante.setLatitudesV(longitud);
@@ -191,6 +208,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
     public void limpiaForm(){
         nombre_restaurante.setText("");
         descripcion_restaurante.setText("");
+        telefono_restaurante.setText(" ");
         VariablesGlobales.getInstance().posicionAgregarRestaurante=null;
     }
 

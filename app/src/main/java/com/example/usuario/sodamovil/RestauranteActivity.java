@@ -18,8 +18,6 @@ import com.example.usuario.sodamovil.Fragmentos.MenuFragmento;
 
 public class RestauranteActivity extends AppCompatActivity {
 
-
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -29,10 +27,10 @@ public class RestauranteActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     changeFragment(1);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_menu:
                     changeFragment(2);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_contacto:
                     changeFragment(3);
                     return true;
             }
