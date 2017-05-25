@@ -44,7 +44,7 @@ public class RestauranteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurante);
 
-
+        getSupportActionBar().setTitle(VariablesGlobales.getInstance().getRestauranteActual().getNombre());
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         changeFragment(1);
