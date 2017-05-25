@@ -70,6 +70,8 @@
             android:name=".RestauranteActivity"
             android:label="@string/title_activity_restaurante" />
         <activity android:name=".AgregarPlatosRestauranteActivity"></activity>
+        <activity android:name=".MisRestaurantes"></activity>
+
     </application>
 
 </manifest>

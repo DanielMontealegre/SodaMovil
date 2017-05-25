@@ -1,7 +1,13 @@
 package com.example.usuario.sodamovil.BaseDeDatos;
 
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.Entidades.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -58,14 +64,25 @@ public class DataBase {
         mDatabaseReference.child("Usuario").child(key).setValue(usuario.toMap());
     }
 
-
-    public Restaurante agregarRestaurante(Restaurante restaurante, String email) {
-        String key = mDatabaseReference.child("Restaurante").push().getKey();
+    public Restaurante agregarRestaurante(Restaurante restaurante, String email, final Bitmap imagenRestaurante, final ProgressDialog progressDialog) {
+        String  emailSinPunto= email.replace(".","");
+        final String key = mDatabaseReference.child("Restaurante").child(emailSinPunto).push().getKey();
         restaurante.setCodigo(key);
-        restaurante.getUsuarios().add(email);
-        mDatabaseReference.child("Restaurante").child(key).setValue(restaurante);
+        restaurante.setUsuario(email);
+        mDatabaseReference.child("Restaurante").child(emailSinPunto).child(key).setValue(restaurante.toMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    StorageDB storageDB= StorageDB.getInstance();
+                    storageDB.guardarImagenRestauranteBitMap(imagenRestaurante,key);
+                    progressDialog.dismiss();
+                }
+
+            }
+        });
         return restaurante;
     }
+
 
     public void actualizarRestaurantesUsuario(Restaurante restaurante,Usuario usuario) {
         Map<String, Object> childUpdates = new HashMap<>();

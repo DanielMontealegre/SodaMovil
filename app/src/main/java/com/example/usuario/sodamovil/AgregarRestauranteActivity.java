@@ -1,12 +1,17 @@
 package com.example.usuario.sodamovil;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
@@ -24,16 +29,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class AgregarRestauranteActivity extends AppCompatActivity {
 
     EditText nombre_restaurante;
     EditText descripcion_restaurante;
     EditText horario_restaurante;
     EditText ubicacion_restaurante;
+    ProgressDialog progressDialog;
+    Bitmap imagenRestaurante;
     EditText telefono_restaurante;
+
     static int  HORARIO_REQUEST = 1;
     static int  UBICACION_REQUEST = 1;
     static int PLACE_PICKER_REQUEST = 3;
+    static int RESULT_LOAD_IMG=4;
 
 
     @Override
@@ -42,21 +54,20 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_restaurante);
 
         // alambramos el boton
-
+        progressDialog = new ProgressDialog(this);
         Button MiBoton = (Button) findViewById(R.id.irAMapaRestaurante);
 
         Button MiBoton2 = (Button) findViewById(R.id.irAhorarioAgregar);
         Button AgregarRestaurante = (Button) findViewById(R.id.btnAgregarRestaurante);
-        Button AgregarPlatos= (Button) findViewById(R.id.btnAgregarPlatillos);
 
 
         nombre_restaurante = (EditText) findViewById(R.id.nombreReId);
         descripcion_restaurante = (EditText) findViewById(R.id.descripReId);
         ubicacion_restaurante = (EditText) findViewById(R.id.etUbicacion);
-        telefono_restaurante=(EditText) findViewById(R.id.etTelf);
         horario_restaurante = (EditText) findViewById(R.id.etHorario);
         horario_restaurante.setEnabled(false);
         ubicacion_restaurante.setFocusable(false);
+        telefono_restaurante=(EditText) findViewById(R.id.etTelf);
         //Programamos el evento onclick
         MiBoton.setOnClickListener(new View.OnClickListener(){
 
@@ -90,16 +101,6 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
         });
 
-        AgregarPlatos.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-
-            public void onClick(View arg0) {
-                Intent intento = new Intent(getApplicationContext(), AgregarPlatosRestauranteActivity.class);
-                startActivity(intento);
-            }
-
-        });
 
 
         AgregarRestaurante.setOnClickListener(new View.OnClickListener(){
@@ -113,8 +114,6 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         });
         getSupportActionBar().setTitle("Agregar Restaurante");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
     }
 
@@ -148,11 +147,28 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
                 horario_restaurante.setText(VariablesGlobales.getInstance().getHorario().toString());
             }
         }
+        if(requestCode==RESULT_LOAD_IMG){
+            try {
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                imagenRestaurante=selectedImage;
+                Mensaje("AQUI ESTOY EN EL RESULT_LOAD_IMG");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Mensaje("ALGO PASO PERRITO");
+            }
+
+        }
     }
 
 
 
+
     private void AgregarRestaurante(){
+        progressDialog.setMessage("Agregando restaurante...");
+        progressDialog.show();
+
         FirebaseAuth firebaseAuth;
         firebaseAuth= FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -161,8 +177,9 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         String descripcion= descripcion_restaurante.getText().toString();
         String telef=telefono_restaurante.getText().toString();
 
-        double latitud= VariablesGlobales.getInstance().posicionAgregarRestaurante.latitude;
-        double longitud= VariablesGlobales.getInstance().posicionAgregarRestaurante.longitude;
+        //double latitud= VariablesGlobales.getInstance().posicionAgregarRestaurante.latitude;
+        //double longitud= VariablesGlobales.getInstance().posicionAgregarRestaurante.longitude;
+
         if(VariablesGlobales.getInstance().getHorario()!=null){
             horario = VariablesGlobales.getInstance().getHorario();
         }
@@ -173,10 +190,10 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         final Restaurante restaurante = new Restaurante();
         restaurante.setNombre(nombre);
         restaurante.setDescripcion(descripcion);
-        restaurante.setTelefono(telef);
         restaurante.setHorario(horario);
-        restaurante.setLatitudesH(latitud);
-        restaurante.setLatitudesV(longitud);
+        restaurante.setLatitudesH(0.0);//latitud
+        restaurante.setLatitudesV(0.0);//longitud
+        restaurante.setTelefono(telef);
 
         final DataBase db= DataBase.getInstance();
         Query query= db.getmDatabaseReference().child("Usuario").orderByChild("correo").equalTo(user.getEmail());
@@ -187,7 +204,13 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
                     for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
                         Usuario user = postSnapshot.getValue(Usuario.class);
                         Mensaje("Restaurante agregado exitosamente");
-                        db.agregarRestaurante(restaurante,user.getIdFirebase());
+                        if(imagenRestaurante !=null){
+                            db.agregarRestaurante(restaurante,user.getCorreo(),imagenRestaurante,progressDialog);
+                        }
+                        else{
+                            Bitmap noImageIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_image_available);
+                            db.agregarRestaurante(restaurante,user.getCorreo(),noImageIcon,progressDialog);
+                        }
                         db.actualizarRestaurantesUsuario(restaurante,user);
                         limpiaForm();
                         Intent intento = new Intent(getApplicationContext(), MainActivity.class);
@@ -208,9 +231,21 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
     public void limpiaForm(){
         nombre_restaurante.setText("");
         descripcion_restaurante.setText("");
-        telefono_restaurante.setText(" ");
         VariablesGlobales.getInstance().posicionAgregarRestaurante=null;
     }
+
+
+
+
+    public void getImageFromGallery(){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+
+
+    }
+
+
 
 
 
