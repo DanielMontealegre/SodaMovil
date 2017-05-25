@@ -2,8 +2,12 @@ package com.example.usuario.sodamovil.Entidades;
 
 import android.graphics.Bitmap;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -15,36 +19,44 @@ public class Restaurante {
     private String codigo;
     private String nombre;
     private String descripcion;
-    private String telefono;
     private Bitmap imagen; //http://stackoverflow.com/questions/9357668/how-to-store-image-in-sqlite-database
     private Double latitudesH;
     private Double latitudesV;
     private Horario horario;
-    private List<String> usuarios;
+    private String  usuario ;
+    private String telefono;
 
 
-    public Restaurante(String codigo, String nombre, String descripcion,String telefono, Bitmap imagen, Double latitudesH, Double latitudesV, Horario horario, List<String> usuarios) {
+    public Restaurante(String codigo, String nombre, String descripcion, Bitmap imagen, Double latitudesH, Double latitudesV, Horario horario, String usuario,String telefono) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.telefono=telefono;
         this.imagen = imagen;
         this.latitudesH = latitudesH;
         this.latitudesV = latitudesV;
-        this.usuarios=usuarios;
+        this.usuario=usuario;
         this.horario=horario;
+        this.telefono=telefono;
     }
 
     public Restaurante() {
         this.codigo = "";
         this.nombre = "";
         this.descripcion = "";
-        this.telefono="";
         this.imagen = null;
         this.latitudesH = 0.0;
         this.latitudesV = 0.0;
         this.horario= new Horario();
-        this.usuarios= new LinkedList<>();
+        this.usuario= "";
+        this.telefono="";
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getNombre() {
@@ -61,14 +73,6 @@ public class Restaurante {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
     }
 
     public Bitmap getImagen() {
@@ -111,11 +115,25 @@ public class Restaurante {
         this.horario = horario;
     }
 
-    public List<String> getUsuarios() {
-        return usuarios;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarios(List<String> usuarios) {
-        this.usuarios = usuarios;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("codigo",  this.codigo);
+        result.put("nombre", this.nombre);
+        result.put("descripcion", this.descripcion);
+        result.put("latitudesH", this.latitudesH);
+        result.put("latitudesV",  this.latitudesV);
+        result.put("horario", this.horario);
+        result.put("usuario", this.usuario);
+        return result;
+    }
+
 }

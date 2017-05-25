@@ -11,8 +11,8 @@ import com.example.usuario.sodamovil.Entidades.Comida;
 import com.example.usuario.sodamovil.R;
 
 
-public class AdaptadorMenu extends RecyclerView.Adapter<AdaptadorMenu.MenuViewHolder>{
-
+public class AdaptadorMenu {
+/*
     public static class MenuViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
         public TextView nombre;
@@ -57,5 +57,5 @@ public class AdaptadorMenu extends RecyclerView.Adapter<AdaptadorMenu.MenuViewHo
 
     }
 
-
+*/
 }
