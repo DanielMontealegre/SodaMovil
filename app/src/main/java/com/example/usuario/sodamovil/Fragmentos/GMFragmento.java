@@ -2,6 +2,7 @@ package com.example.usuario.sodamovil.Fragmentos;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.R;
+import com.example.usuario.sodamovil.RestauranteActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,9 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-/**
- * Created by Danel on 4/11/2017.
- */
+
 
 public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener  {
@@ -80,6 +81,8 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
                     mMap.addMarker(markerOptions);
                 }
             }
+
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -139,8 +142,11 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
         //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        //mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         //stop location updates
         if (mGoogleApiClient != null) {
@@ -168,6 +174,8 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
         }
         restaurantes = new ArrayList<Restaurante>();
         pintarRestaurantes();
+
+
     }
 
     protected synchronized void buildGoogleApiClient() {

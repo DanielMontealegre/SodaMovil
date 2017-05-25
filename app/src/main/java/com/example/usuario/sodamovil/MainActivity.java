@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.menuItemMisRestaurantes) {
             Mensaje("Mis Restaurantes");
+            Intent intento = new Intent(getApplicationContext(), RestauranteActivity.class);
+            startActivity(intento);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
