@@ -1,9 +1,11 @@
 package com.example.usuario.sodamovil.Fragmentos;
 
 
+import android.content.Intent;
 import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.usuario.sodamovil.AgregarComida;
 import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
 import com.example.usuario.sodamovil.BaseDeDatos.StorageDB;
 import com.example.usuario.sodamovil.Entidades.Comida;
@@ -29,6 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import static com.example.usuario.sodamovil.R.id.btnAgregarComida;
 import static com.example.usuario.sodamovil.R.id.miniatura_comida;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -44,23 +48,11 @@ public class MenuFragmento extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_menu, container, false);
-
+        FloatingActionButton btnAgregarComida= (FloatingActionButton) view.findViewById(R.id.btnFloatAgregarComida);
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
         layoutManager = new GridLayoutManager(getActivity(), 2);
         reciclador.setLayoutManager(layoutManager);
         DataBase db=DataBase.getInstance();
-        //*---------------PRUEBAS-//-
-        //Pedir el id del restaurante en variables globales
-        DatabaseReference mRef = db.getmDatabaseReference().child("Comida").child(VariablesGlobales.getInstance().getRestauranteActual().getCodigo()); // id del restaurante
-        // Para agregar sin boton xd
-        String key =mRef.push().getKey();
-        Comida comidaAux= new Comida();
-        comidaAux.setNombre("Arroz con pollo");
-        comidaAux.setIdFirebase(key);
-        comidaAux.setPrecio(600000);
-        comidaAux.setIdRestaurante(VariablesGlobales.getInstance().getRestauranteActual().getCodigo());
-        mRef.child(key).setValue(comidaAux);
-        ///-----------------------------------------------------------------////
         DatabaseReference ref = db.getmDatabaseReference().child("Comida").child(VariablesGlobales.getInstance().getRestauranteActual().getCodigo()); //Deberia pedir el codigo( getCodigo) del restaurante actual. Variables.g...getRes
         mAdapter = new FirebaseRecyclerAdapter<Comida, ComidaHolder>(
                 Comida.class,
@@ -81,7 +73,7 @@ public class MenuFragmento extends Fragment {
 
                 viewHolder.setNombre(model.getNombre());
                 viewHolder.setPrecio(Double.toString(model.getPrecio()));
-                StorageReference imaginesRestaurante = StorageDB.getInstance().imaginesComidas.child("-KkdPFHZin_6zmo9r7va.jpg"); //Aqui iria la key de la comida, y sin el jpg. EJ:  model.setIdFirebase();
+                StorageReference imaginesRestaurante = StorageDB.getInstance().imaginesComidas.child(model.getIdFirebase()); //Aqui iria la key de la comida, y sin el jpg. EJ:  model.setIdFirebase();
                 Glide.with(viewHolder.itemView.getContext())
                         .using(new FirebaseImageLoader())
                         .load(imaginesRestaurante)
@@ -92,6 +84,13 @@ public class MenuFragmento extends Fragment {
             ;
 
         };
+        btnAgregarComida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intento = new Intent(getApplicationContext(), AgregarComida.class);
+                startActivity(intento);
+            }
+        });
 
         reciclador.setAdapter(mAdapter);
         return view;

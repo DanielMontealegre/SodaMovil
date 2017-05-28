@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
+import com.example.usuario.sodamovil.Entidades.Comida;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.Entidades.Usuario;
+import com.example.usuario.sodamovil.VariablesGlobales;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -69,6 +71,7 @@ public class DataBase {
         final String key = mDatabaseReference.child("Restaurante").child(emailSinPunto).push().getKey();
         restaurante.setCodigo(key);
         restaurante.setUsuario(email);
+        mDatabaseReference.child("Restaurantes_Todos").child(key).setValue(restaurante.toMap());
         mDatabaseReference.child("Restaurante").child(emailSinPunto).child(key).setValue(restaurante.toMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -82,7 +85,24 @@ public class DataBase {
         });
         return restaurante;
     }
+    public Comida agregarComida(Restaurante restaurante,Comida comida,final Bitmap imagenComida, final ProgressDialog progressDialog){
+        DatabaseReference mRef = mDatabaseReference.child("Comida").child(restaurante.getCodigo()); // id del restaurante
+        final String key =mRef.push().getKey();
+        comida.setIdFirebase(key);
+        comida.setIdRestaurante(restaurante.getCodigo());
+        mRef.child(key).setValue(comida).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    StorageDB storageDB= StorageDB.getInstance();
+                    storageDB.guardarImagenComidaBitMap(imagenComida,key);
+                    progressDialog.dismiss();
+                }
+            }
+        });;
+        return comida;
 
+    }
 
     public void actualizarRestaurantesUsuario(Restaurante restaurante,Usuario usuario) {
         Map<String, Object> childUpdates = new HashMap<>();
