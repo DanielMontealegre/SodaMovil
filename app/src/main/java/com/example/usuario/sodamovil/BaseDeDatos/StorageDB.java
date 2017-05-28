@@ -73,6 +73,28 @@ public class StorageDB {
 
     }
 
+    public void guardarImagenComidaBitMap(Bitmap bitmap, String codigoComida){
+        StorageReference nuevaImagen = imaginesComidas.child(codigoComida);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+        UploadTask uploadTask = nuevaImagen.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+            }
+        });
+    }
+
+
+
     public void setImagenRestauranteEnImageView(Restaurante restaurante, final ImageView view){
         StorageDB.getInstance().imaginesRestaurante.child(restaurante.getCodigo()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
