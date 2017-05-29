@@ -45,7 +45,7 @@ import java.util.ArrayList;
 
 
 public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener  {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener,GoogleMap.OnInfoWindowClickListener  {
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -174,6 +174,7 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
         }
         restaurantes = new ArrayList<Restaurante>();
         pintarRestaurantes();
+        mMap.setOnInfoWindowClickListener(this);
 
 
     }
@@ -250,5 +251,12 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
             // other 'case' lines to check for other permissions this app might request.
             //You can add here other case statements according to your requirement.
         }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Intent intento = new Intent(getActivity(), RestauranteActivity.class);
+        startActivity(intento);
+
     }
 }
