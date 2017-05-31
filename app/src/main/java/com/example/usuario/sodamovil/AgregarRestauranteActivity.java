@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -40,6 +42,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
     EditText ubicacion_restaurante;
     ProgressDialog progressDialog;
     Bitmap imagenRestaurante;
+    ImageView imagenRestauranteView;
     EditText telefono_restaurante;
 
     static int  HORARIO_REQUEST = 1;
@@ -139,6 +142,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
             if(resultCode==RESULT_OK){
                 Place place = PlacePicker.getPlace(this,data);
                 String address = ""+place.getAddress();
+                VariablesGlobales.getInstance().setPosicionAgregarRestaurante(place.getLatLng());
                 ubicacion_restaurante.setText(address);
             }
         }
@@ -161,6 +165,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
         }
     }
+
 
 
 
