@@ -36,10 +36,11 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
                 android:ems="10"
                 android:hint="Precio"
-                android:id="@+id/precioComidaId" />
+                android:id="@+id/precioComidaId"
+                android:inputType="numberDecimal"
+                />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -48,6 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_no_image_available" />
+
+
 
         <Button
             android:text="Agregar Comida"

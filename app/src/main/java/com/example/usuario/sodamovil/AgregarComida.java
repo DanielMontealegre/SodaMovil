@@ -1,5 +1,6 @@
 package com.example.usuario.sodamovil;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +22,8 @@ import com.example.usuario.sodamovil.Entidades.Comida;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -68,9 +71,11 @@ public class AgregarComida extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
-        if(requestCode==RESULT_LOAD_IMG){
+/*
+        if(requestCode==RESULT_LOAD_IMG && resultCode == RESULT_OK){
             try {
                 final Uri imageUri = data.getData();
+                //cropImageView.setImageUriAsync(uri);
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 imagenComida.setImageBitmap(selectedImage);
@@ -80,7 +85,27 @@ public class AgregarComida extends AppCompatActivity {
                 Mensaje("ALGO PASO PERRITO");
             }
 
+        }*/
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                imagenComida.setImageURI(resultUri);
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(resultUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    imagenComidaFirebase=selectedImage;
+                }
+                catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Mensaje("ALGO PASO PERRITO");
+                }
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
         }
+
     }
 
     public void AgregarComida(){
@@ -95,9 +120,10 @@ public class AgregarComida extends AppCompatActivity {
         DataBase.getInstance().agregarComida(restauranteActual,comida,imagenComidaFirebase,progressDialog);
         limpiaForm();
         super.onBackPressed();
-
-
     }
+
+
+
     public void limpiaForm(){
         nombreComida.setText("");
         precioComida.setText("");
@@ -109,11 +135,23 @@ public class AgregarComida extends AppCompatActivity {
     public void Mensaje(String msg){
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
 
+/*
+    public void getImageFromGallery(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Escoja una imagen"), RESULT_LOAD_IMG);
+    }
+*/
 
     public void getImageFromGallery(){
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropWindowSize(0,0)
+                .setMinCropResultSize(250,250)
+                .setMaxCropResultSize(500,378)
+                .start(this);
     }
+
 
 }
