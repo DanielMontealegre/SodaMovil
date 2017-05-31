@@ -51,7 +51,6 @@
             app:srcCompat="@drawable/ic_no_image_available" />
 
 
-
         <Button
             android:text="Agregar Comida"
             style="@android:style/TextAppearance.Material.Small"

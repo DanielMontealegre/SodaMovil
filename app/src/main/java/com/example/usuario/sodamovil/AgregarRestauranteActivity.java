@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -42,7 +44,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
     EditText ubicacion_restaurante;
     ProgressDialog progressDialog;
     Bitmap imagenRestaurante;
-    ImageView imagenRestauranteView;
+    ImageView imagenRestauranteButton;
     EditText telefono_restaurante;
 
     static int  HORARIO_REQUEST = 1;
@@ -62,6 +64,9 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
         Button MiBoton2 = (Button) findViewById(R.id.irAhorarioAgregar);
         Button AgregarRestaurante = (Button) findViewById(R.id.btnAgregarRestaurante);
+
+        imagenRestauranteButton= (ImageView) findViewById(R.id.imagenViewRestaurante);
+
 
 
         nombre_restaurante = (EditText) findViewById(R.id.nombreReId);
@@ -104,6 +109,17 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
         });
 
+        imagenRestauranteButton.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+
+            public void onClick(View arg0) {
+                getImageFromGallery();
+            }
+
+
+        });
 
 
         AgregarRestaurante.setOnClickListener(new View.OnClickListener(){
@@ -151,18 +167,23 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
                 horario_restaurante.setText(VariablesGlobales.getInstance().getHorario().toString());
             }
         }
-        if(requestCode==RESULT_LOAD_IMG){
-            try {
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                imagenRestaurante=selectedImage;
-                Mensaje("AQUI ESTOY EN EL RESULT_LOAD_IMG");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Mensaje("ALGO PASO PERRITO");
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                imagenRestauranteButton.setImageURI(resultUri);
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(resultUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    imagenRestaurante=selectedImage;
+                }
+                catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Mensaje("ALGO PASO PERRITO");
+                }
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
-
         }
     }
 
@@ -182,8 +203,8 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         String descripcion= descripcion_restaurante.getText().toString();
         String telef=telefono_restaurante.getText().toString();
 
-        double latitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().latitude;
-        double longitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().longitude;
+        //double latitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().latitude;
+        //double longitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().longitude;
 
         if(VariablesGlobales.getInstance().getHorario()!=null){
             horario = VariablesGlobales.getInstance().getHorario();
@@ -196,8 +217,8 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         restaurante.setNombre(nombre);
         restaurante.setDescripcion(descripcion);
         restaurante.setHorario(horario);
-        restaurante.setLatitudesH(latitud);//latitud
-        restaurante.setLatitudesV(longitud);//longitud
+        restaurante.setLatitudesH(0.0);//latitud
+        restaurante.setLatitudesV(0.0);//longitud
         restaurante.setTelefono(telef);
 
         final DataBase db= DataBase.getInstance();
@@ -241,7 +262,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
 
 
-
+/*
     public void getImageFromGallery(){
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
@@ -249,8 +270,16 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
 
 
     }
+*/
 
-
+    public void getImageFromGallery(){
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropWindowSize(0,0)
+                .setMinCropResultSize(260,260)
+                .setMaxCropResultSize(600,410)
+                .start(this);
+    }
 
 
 

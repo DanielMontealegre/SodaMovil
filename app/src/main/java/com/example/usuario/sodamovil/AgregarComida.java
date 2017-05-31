@@ -148,9 +148,10 @@ public class AgregarComida extends AppCompatActivity {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMinCropWindowSize(0,0)
-                .setMinCropResultSize(250,250)
-                .setMaxCropResultSize(500,378)
+                .setMinCropResultSize(260,260)
+                .setMaxCropResultSize(600,410)
                 .start(this);
+        // .setMinCropWindowSize(0,0)
     }
 
 
