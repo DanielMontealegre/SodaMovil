@@ -21,6 +21,7 @@ import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.R;
 import com.example.usuario.sodamovil.RestauranteActivity;
+import com.example.usuario.sodamovil.VariablesGlobales;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -45,7 +46,8 @@ import java.util.ArrayList;
 
 
 public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener,GoogleMap.OnInfoWindowClickListener  {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnInfoWindowClickListener  {
+
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -62,7 +64,7 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
 
     private void pintarRestaurantes() {
         final DataBase db= DataBase.getInstance();
-        db.getmDatabaseReference().child("Restaurante").addValueEventListener(new ValueEventListener() {
+        db.getmDatabaseReference().child("Restaurantes_Todos").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(restaurantes.size() > 0)
@@ -176,7 +178,28 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
         pintarRestaurantes();
         mMap.setOnInfoWindowClickListener(this);
 
+        mMap.setOnInfoWindowClickListener(this);
+    }
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        boolean ya=false;
+        Restaurante actual = null;
+        for(int i=0;i<restaurantes.size() && ya==false;i++){
+            if( restaurantes.get(i).getLatitudesH().equals(marker.getPosition().latitude) && restaurantes.get(i).getLatitudesV().equals(marker.getPosition().longitude)){
+                actual = restaurantes.get(i);
+                VariablesGlobales.getInstance().setRestauranteActual(actual);
+                ya=true;
+                pasarActividadRestaurante();
+            }
+        }
+
+    }
+
+    public void pasarActividadRestaurante(){
+
+        Intent intento = new Intent(getActivity(), RestauranteActivity.class);
+        startActivity(intento);
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -253,10 +276,5 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
         }
     }
 
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        Intent intento = new Intent(getActivity(), RestauranteActivity.class);
-        startActivity(intento);
 
-    }
 }

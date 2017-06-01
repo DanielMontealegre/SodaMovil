@@ -139,6 +139,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
             if(resultCode==RESULT_OK){
                 Place place = PlacePicker.getPlace(this,data);
                 String address = ""+place.getAddress();
+                VariablesGlobales.getInstance().setPosicionAgregarRestaurante(place.getLatLng());
                 ubicacion_restaurante.setText(address);
             }
         }
@@ -177,8 +178,10 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         String descripcion= descripcion_restaurante.getText().toString();
         String telef=telefono_restaurante.getText().toString();
 
-        double latitud= VariablesGlobales.getInstance().posicionAgregarRestaurante.latitude;
-        double longitud= VariablesGlobales.getInstance().posicionAgregarRestaurante.longitude;
+
+        double latitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().latitude;
+        double longitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().longitude;
+
 
         if(VariablesGlobales.getInstance().getHorario()!=null){
             horario = VariablesGlobales.getInstance().getHorario();
