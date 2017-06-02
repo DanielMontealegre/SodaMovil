@@ -34,6 +34,7 @@ import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
 import com.example.usuario.sodamovil.AcercaDeActivity;
 import com.example.usuario.sodamovil.AgregarRestauranteActivity;
+import com.example.usuario.sodamovil.AgregarRestauranteNombre;
 import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
 import com.example.usuario.sodamovil.Entidades.DataHelper;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
@@ -124,8 +125,13 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
     public void OnMenuItemClick(MenuItem item,View view){
         int id = item.getItemId();
         if (id == R.id.menuItemAgregarRestaurante) {
-            Intent intento = new Intent(getApplicationContext(), AgregarRestauranteActivity.class);
+          //  Intent intento = new Intent(getApplicationContext(), AgregarRestauranteActivity.class);
+         //   startActivity(intento);
+            VariablesGlobales.getInstance().restauranteAgregar = null;
+            VariablesGlobales.getInstance().posicionAgregarRestaurante =null;
+            Intent intento = new Intent(getApplicationContext(), AgregarRestauranteNombre.class);
             startActivity(intento);
+
         } else if (id == R.id.menuItemAcercaDe) {
             Intent intento = new Intent(getApplicationContext(), AcercaDeActivity.class);
             startActivity(intento);
@@ -540,6 +546,8 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
+
+
 
 
 

@@ -7,27 +7,13 @@ package com.example.usuario.sodamovil.Entidades;
 import android.widget.Filter;
 
 import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
-import com.google.android.gms.games.internal.constants.SuggestionAction;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import android.content.Context;
-import android.widget.Filter;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -167,6 +153,7 @@ public class DataHelper {
 
     public static void inicializarRestaurantes(){
         final DataBase db= DataBase.getInstance();
+
         db.getmDatabaseReference().child("Restaurantes_Todos").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -176,7 +163,9 @@ public class DataHelper {
 
                     arrayRestauranteSuggestions.add(new RestauranteSuggestion(restaurante.getNombre(),restaurante.getCodigo(),restaurante.getDescripcion()));
                 }
+
                 if(arrayRestauranteSuggestions.size()==0)  arrayRestauranteHistorial.clear();
+
                 else{
                     for (RestauranteSuggestion restauranteSuggestions : arrayRestauranteHistorial){
                         if(!cointainsRestauranteHistorial(restauranteSuggestions)){
@@ -190,8 +179,6 @@ public class DataHelper {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
     }
 
 
@@ -217,41 +204,4 @@ public class DataHelper {
     }
 
 
-    /*
-    private static void initColorWrapperList(Context context) {
-
-        if (sColorWrappers.isEmpty()) {
-            String jsonString = loadJson(context);
-            sColorWrappers = deserializeColors(jsonString);
-        }
-    }
-
-    private static String loadJson(Context context) {
-
-        String jsonString;
-
-        try {
-            InputStream is = context.getAssets().open(COLORS_FILE_NAME);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            jsonString = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-        return jsonString;
-    }
-
-    private static List<ColorWrapper> deserializeColors(String jsonString) {
-
-        Gson gson = new Gson();
-
-        Type collectionType = new TypeToken<List<ColorWrapper>>() {
-        }.getType();
-        return gson.fromJson(jsonString, collectionType);
-    }
-*/
 }
