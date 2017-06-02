@@ -29,7 +29,7 @@ public   class ComidaHolder extends RecyclerView.ViewHolder {
 
 
     public void setPrecio(String precio) {
-        this.precio.setText(precio);
+        this.precio.setText("₡"+precio);
     }
 
     public void setImagenUri(Uri imagen) {

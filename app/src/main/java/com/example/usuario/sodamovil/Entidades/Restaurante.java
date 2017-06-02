@@ -136,6 +136,7 @@ public class Restaurante {
         result.put("usuario", this.usuario);
         result.put("telefono", this.telefono);
         result.put("ubicacion",this.ubicacion);
+
         return result;
     }
 
