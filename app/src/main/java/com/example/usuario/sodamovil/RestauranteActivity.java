@@ -11,13 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.usuario.sodamovil.Fragmentos.FragmentoContacto;
 import com.example.usuario.sodamovil.Fragmentos.GMFragmento;
 import com.example.usuario.sodamovil.Fragmentos.Informacion;
 import com.example.usuario.sodamovil.Fragmentos.MenuFragmento;
 
 public class RestauranteActivity extends AppCompatActivity {
-
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -28,11 +27,11 @@ public class RestauranteActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     changeFragment(1);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_menu:
                     changeFragment(2);
                     return true;
-                case R.id.navigation_notifications:
-                    //changeFragment(3);
+                case R.id.navigation_contacto:
+                    changeFragment(3);
                     return true;
             }
             return false;
@@ -45,7 +44,7 @@ public class RestauranteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurante);
 
-
+        getSupportActionBar().setTitle(VariablesGlobales.getInstance().getRestauranteActual().getNombre());
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         changeFragment(1);
@@ -64,9 +63,9 @@ public class RestauranteActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 3:
-               // ft = getSupportFragmentManager().beginTransaction();
-                //ft.replace(R.id.fragment_Rest, new Contacto());
-                //ft.commit();
+               ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_Rest, new FragmentoContacto());
+                ft.commit();
                 break;
             default: break;
         }

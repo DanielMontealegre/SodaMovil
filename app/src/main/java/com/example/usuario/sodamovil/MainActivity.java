@@ -34,6 +34,7 @@ import java.util.List;
 
 import static android.R.id.list;
 
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         FirebaseAuth firebaseAuth;
@@ -58,18 +59,24 @@ public class MainActivity extends AppCompatActivity
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+
+      ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
-        toggle.syncState();
+       toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
         android.app.FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.fragment,new GMFragmento()).commit();
-    getSupportActionBar().setTitle("Soda Movil");
+
+        GMFragmento fragmentoMap= new GMFragmento();
+        fragmentoMap.setDrawerLayout(drawer);
+
+        fm.beginTransaction().replace(R.id.fragment,fragmentoMap).commit();
+        //getSupportActionBar().setTitle("Soda Movil");
         cambiarNavHeader();
     }
 
@@ -127,7 +134,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.menuItemMisRestaurantes) {
             Mensaje("Mis Restaurantes");
-            Intent intento = new Intent(getApplicationContext(), RestauranteActivity.class);
+            Intent intento = new Intent(getApplicationContext(), MisRestaurantes.class);
             startActivity(intento);
         }
 
@@ -158,4 +165,12 @@ public class MainActivity extends AppCompatActivity
         firebaseAuth.signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+
 }
