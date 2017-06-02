@@ -33,6 +33,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import retrofit2.http.HEAD;
+
 import static com.example.usuario.sodamovil.AgregarRestauranteActivity.HORARIO_REQUEST;
 import static com.example.usuario.sodamovil.AgregarRestauranteActivity.RESULT_LOAD_IMG;
 
@@ -75,7 +77,6 @@ public class AgregarComida extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -88,6 +89,7 @@ public class AgregarComida extends AppCompatActivity {
                     // request permissions and handle the result in onRequestPermissionsResult()
                     mCropImageUri = resultUri;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
                     }
                 }

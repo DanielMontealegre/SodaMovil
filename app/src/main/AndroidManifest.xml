@@ -76,10 +76,14 @@
             android:label="@string/title_activity_restaurante" />
         <activity android:name=".AgregarPlatosRestauranteActivity" />
         <activity android:name=".MisRestaurantes" />
-        <activity android:name=".AgregarComida"></activity>
+        <activity android:name=".AgregarComida" />
         <activity android:name=".RestaurantesBusqueda"></activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" /> <!-- para el cropp de las imagines -->
 
+        <activity android:name=".AgregarRestauranteInfoGeneral" />
+        <activity android:name=".AgregarResturanteUbicacion" />
+        <activity android:name=".AgregarRestauranteImagen" />
+        <activity android:name=".AgregarRestauranteNombre"></activity>
     </application>
 
 </manifest>

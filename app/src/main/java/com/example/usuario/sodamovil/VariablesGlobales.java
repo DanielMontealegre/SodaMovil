@@ -18,6 +18,7 @@ public class VariablesGlobales {
     public LatLng posicionAgregarRestaurante;
     private Horario horario;
     private Restaurante restauranteActual;
+    public Restaurante restauranteAgregar;
     private List<Restaurante> restaurantesResultadoBuscar= new ArrayList<>();
 
 
