@@ -3,11 +3,13 @@ package com.example.usuario.sodamovil;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
 import com.example.usuario.sodamovil.Entidades.Comida;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
+import com.google.android.gms.appindexing.AndroidAppUri;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -27,6 +30,9 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URI;
+
+import okhttp3.internal.Platform;
 
 import static com.example.usuario.sodamovil.AgregarRestauranteActivity.HORARIO_REQUEST;
 import static com.example.usuario.sodamovil.AgregarRestauranteActivity.RESULT_LOAD_IMG;
@@ -39,6 +45,7 @@ public class AgregarComida extends AppCompatActivity {
     ProgressDialog progressDialog;
     Button btnAgregarComida;
     static int RESULT_LOAD_IMG=4;
+    Uri mCropImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,44 +77,56 @@ public class AgregarComida extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode,int resultCode,Intent data){
-/*
-        if(requestCode==RESULT_LOAD_IMG && resultCode == RESULT_OK){
-            try {
-                final Uri imageUri = data.getData();
-                //cropImageView.setImageUriAsync(uri);
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                imagenComida.setImageBitmap(selectedImage);
-                imagenComidaFirebase=selectedImage;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Mensaje("ALGO PASO PERRITO");
-            }
-
-        }*/
-
+    protected void onActivityResult(int requestCode,int resultCode,Intent data) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
-                imagenComida.setImageURI(resultUri);
-                try {
-                    final InputStream imageStream = getContentResolver().openInputStream(resultUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    imagenComidaFirebase=selectedImage;
+                ///imagenComida.setImageURI(resultUri);
+                // For API >= 23 we need to check specifically that we have permissions to read external storage.
+                if (CropImage.isReadExternalStoragePermissionsRequired(this, resultUri)) {
+                    // request permissions and handle the result in onRequestPermissionsResult()
+                    mCropImageUri = resultUri;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
+                    }
                 }
-                catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Mensaje("ALGO PASO PERRITO");
+                else{
+                    try {
+                        final InputStream imageStream = getContentResolver().openInputStream(resultUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        imagenComida.setImageBitmap(selectedImage);
+                        imagenComidaFirebase = selectedImage;
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        Mensaje("ALGO PASO PERRITO");
+                    }
                 }
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
-        }
 
+        }
     }
 
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                CropImage.startPickImageActivity(this);
+            } else {
+                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+            }
+        }
+        if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
+            if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // required permissions granted, start crop image activity
+                CropImage.activity(mCropImageUri);
+            } else {
+                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
     public void AgregarComida(){
         progressDialog.setMessage("Agregando comida...");
         progressDialog.show();

@@ -133,6 +133,8 @@ public class Restaurante {
         result.put("latitudesV",  this.latitudesV);
         result.put("horario", this.horario);
         result.put("usuario", this.usuario);
+        result.put("telefono",  this.telefono);
+
         return result;
     }
 

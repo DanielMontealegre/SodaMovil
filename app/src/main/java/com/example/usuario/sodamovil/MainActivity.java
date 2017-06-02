@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -129,7 +130,11 @@ public class MainActivity extends AppCompatActivity
             Mensaje("Mis Restaurantes");
             Intent intento = new Intent(getApplicationContext(), MisRestaurantes.class);
             startActivity(intento);
+
+        }else if (id == R.id.menuItemDemo) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/")));
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -158,4 +163,6 @@ public class MainActivity extends AppCompatActivity
         firebaseAuth.signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
+
+
 }
