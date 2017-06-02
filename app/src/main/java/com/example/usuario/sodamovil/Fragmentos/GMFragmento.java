@@ -69,6 +69,7 @@ import java.util.List;
 
 import static com.example.usuario.sodamovil.Entidades.DataHelper.clearRestaurantes;
 import static com.example.usuario.sodamovil.Entidades.DataHelper.inicializarRestaurantes;
+import static com.example.usuario.sodamovil.Entidades.DataHelper.setRestauranteSuggestionHistory;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.twitter.sdk.android.Twitter.logOut;
 
@@ -114,7 +115,7 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
 
 
 
-        inicializarRestaurantes();
+
         setupFloatingSearch();
 
         return v;
@@ -417,7 +418,9 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
+
                 RestauranteSuggestion restauranteSuggestion = (RestauranteSuggestion) searchSuggestion;
+                setRestauranteSuggestionHistory(restauranteSuggestion);
                 getRestauranteFromSearch(restauranteSuggestion);
             }
             @Override
@@ -447,10 +450,7 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
             @Override
             public void onFocus() {
 
-                //show suggestions when search bar gains focus (typically history suggestions)
-                //mSearchView.swapSuggestions(DataHelper.getHistory(getActivity(), 3));
-
-               // Log.d(TAG, "onFocus()");
+                mSearchView.swapSuggestions(DataHelper.getHistory(getActivity(), 3));
             }
 
             @Override
