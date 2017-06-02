@@ -34,6 +34,7 @@ import java.util.List;
 
 import static android.R.id.list;
 
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         FirebaseAuth firebaseAuth;
@@ -164,4 +165,12 @@ public class MainActivity extends AppCompatActivity
         firebaseAuth.signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+
 }
