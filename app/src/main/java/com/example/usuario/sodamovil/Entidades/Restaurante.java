@@ -24,9 +24,11 @@ public class Restaurante {
     private String  usuario ;
     private String telefono;
     private String ubicacion;
+    private int scrollX;
+    private int scrollY;
 
 
-    public Restaurante(String codigo, String nombre, String descripcion, Bitmap imagen, Double latitudesH, Double latitudesV, Horario horario, String usuario,String telefono, String ubicacion) {
+    public Restaurante(String codigo, String nombre, String descripcion, Bitmap imagen, Double latitudesH, Double latitudesV, Horario horario, String usuario,String telefono, String ubicacion,int scrollX,int scrollY) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -37,6 +39,8 @@ public class Restaurante {
         this.horario=horario;
         this.telefono=telefono;
         this.ubicacion=ubicacion;
+        this.scrollX=scrollX;
+        this.scrollY=scrollY;
     }
 
     public Restaurante() {
@@ -50,6 +54,8 @@ public class Restaurante {
         this.usuario= "";
         this.telefono="";
         this.ubicacion="";
+        this.scrollX=0;
+        this.scrollY=0;
     }
 
     public String getTelefono() {
@@ -124,6 +130,22 @@ public class Restaurante {
         this.usuario = usuario;
     }
 
+    public int getScrollX() {
+        return scrollX;
+    }
+
+    public void setScrollX(int scrollX) {
+        this.scrollX = scrollX;
+    }
+
+    public int getScrollY() {
+        return scrollY;
+    }
+
+    public void setScrollY(int scrollY) {
+        this.scrollY = scrollY;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -136,7 +158,8 @@ public class Restaurante {
         result.put("usuario", this.usuario);
         result.put("telefono", this.telefono);
         result.put("ubicacion",this.ubicacion);
-
+        result.put("scrollX",this.scrollX);
+        result.put("scrollY",this.scrollY);
         return result;
     }
 

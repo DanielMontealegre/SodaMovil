@@ -45,6 +45,7 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
     ImageView imagenRestauranteButtonEdit;
     ProgressDialog progressDialog;
     VariablesGlobales vg;
+    ScrollView scrollView;
 
     boolean isBlockedScrollView;
     static int RESULT_LOAD_IMG=4;
@@ -58,7 +59,7 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         vg=VariablesGlobales.getInstance();
         isBlockedScrollView=false;
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
         scrollView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -157,6 +158,11 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
         restaurante.setLatitudesH(latitud);//latitud
         restaurante.setLatitudesV(longitud);//longitud
 
+        int scrollX = scrollView.getScrollX();
+        int scrollY = scrollView.getScrollY();
+
+        restaurante.setScrollX(scrollX);
+        restaurante.setScrollY(scrollY);
         final DataBase db= DataBase.getInstance();
         Query query= db.getmDatabaseReference().child("Usuario").orderByChild("correo").equalTo(user.getEmail());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
