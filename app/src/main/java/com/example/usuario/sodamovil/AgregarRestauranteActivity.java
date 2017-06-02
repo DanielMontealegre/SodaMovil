@@ -36,6 +36,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import retrofit2.http.HEAD;
+
 public class AgregarRestauranteActivity extends AppCompatActivity {
 
     EditText nombre_restaurante;
@@ -202,11 +204,10 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         final String nombre=nombre_restaurante.getText().toString();
         String descripcion= descripcion_restaurante.getText().toString();
         String telef=telefono_restaurante.getText().toString();
-
+        String ubicacion = ubicacion_restaurante.getText().toString();
 
         double latitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().latitude;
         double longitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().longitude;
-
 
 
         if(VariablesGlobales.getInstance().getHorario()!=null){
@@ -223,6 +224,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         restaurante.setLatitudesH(latitud);//latitud
         restaurante.setLatitudesV(longitud);//longitud
         restaurante.setTelefono(telef);
+        restaurante.setUbicacion(ubicacion);
 
         final DataBase db= DataBase.getInstance();
         Query query= db.getmDatabaseReference().child("Usuario").orderByChild("correo").equalTo(user.getEmail());

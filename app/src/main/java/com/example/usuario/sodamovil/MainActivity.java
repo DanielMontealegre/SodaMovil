@@ -35,6 +35,7 @@ import java.util.List;
 
 import static android.R.id.list;
 
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         FirebaseAuth firebaseAuth;
@@ -98,7 +99,30 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Desea salir de la aplicación?");
+            alertDialogBuilder
+                    //.setMessage("Click 'SI' para salir!")
+                    .setCancelable(false)
+                    .setPositiveButton("Salir",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                                    intent.addCategory(Intent.CATEGORY_HOME);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+                            })
+
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
     }
 
@@ -172,6 +196,14 @@ public class MainActivity extends AppCompatActivity
         firebaseAuth.signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
 
 
 }

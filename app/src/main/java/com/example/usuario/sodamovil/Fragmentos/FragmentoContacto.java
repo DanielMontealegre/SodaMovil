@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.bumptech.glide.Glide;
 import com.example.usuario.sodamovil.BaseDeDatos.StorageDB;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
@@ -21,7 +22,10 @@ import com.example.usuario.sodamovil.VariablesGlobales;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
 
+import retrofit2.http.HEAD;
+
 import static com.example.usuario.sodamovil.R.id.container;
+
 
 
 public class FragmentoContacto extends Fragment {
@@ -45,6 +49,7 @@ public class FragmentoContacto extends Fragment {
     }
 
 
+
     public void OnclickDelImageView(View view) {
         // Ejemplo  OnclickDelImageView(R.id.MiImageView);
 
@@ -59,7 +64,7 @@ public class FragmentoContacto extends Fragment {
                     case R.id.ButtonLlamada:
                         MarcarNumero(numero);
 
-                    break;
+                        break;
 
                     case R.id.ButtonIr:
                         Intent i = new Intent(android.content.Intent.ACTION_VIEW);
@@ -76,12 +81,13 @@ public class FragmentoContacto extends Fragment {
 
     }
 
+
     public void setRestaurante(View view){
         Restaurante restaurante= VariablesGlobales.getInstance().getRestauranteActual();
         if(restaurante != null){
             numero=restaurante.getTelefono();
-            longitud=String.valueOf(restaurante.getLatitudesV());
             latitud=String.valueOf(restaurante.getLatitudesH());
+            longitud=String.valueOf(restaurante.getLatitudesV());
 
         }
     }
@@ -93,4 +99,6 @@ public class FragmentoContacto extends Fragment {
         startActivity(i);
     }
     ;
+
 }
+

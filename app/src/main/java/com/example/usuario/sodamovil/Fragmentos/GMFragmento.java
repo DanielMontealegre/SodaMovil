@@ -126,8 +126,6 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
     public void OnMenuItemClick(MenuItem item,View view){
         int id = item.getItemId();
         if (id == R.id.menuItemAgregarRestaurante) {
-          //  Intent intento = new Intent(getApplicationContext(), AgregarRestauranteActivity.class);
-         //   startActivity(intento);
             VariablesGlobales.getInstance().restauranteAgregar = null;
             VariablesGlobales.getInstance().posicionAgregarRestaurante =null;
             Intent intento = new Intent(getApplicationContext(), AgregarRestauranteNombre.class);
