@@ -59,18 +59,24 @@ public class MainActivity extends AppCompatActivity
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+
+      ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
-        toggle.syncState();
+       toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
         android.app.FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.fragment,new GMFragmento()).commit();
-    getSupportActionBar().setTitle("Soda Movil");
+
+        GMFragmento fragmentoMap= new GMFragmento();
+        fragmentoMap.setDrawerLayout(drawer);
+
+        fm.beginTransaction().replace(R.id.fragment,fragmentoMap).commit();
+        //getSupportActionBar().setTitle("Soda Movil");
         cambiarNavHeader();
     }
 
@@ -117,7 +123,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuItemAgregarRestaurante) {
-            Intent intento = new Intent(getApplicationContext(), AgregarRestauranteActivity.class);
+//            Intent intento = new Intent(getApplicationContext(), AgregarRestauranteActivity.class);
+            VariablesGlobales.getInstance().restauranteAgregar = null;
+            VariablesGlobales.getInstance().posicionAgregarRestaurante =null;
+            Intent intento = new Intent(getApplicationContext(), AgregarRestauranteNombre.class);
             startActivity(intento);
         } else if (id == R.id.menuItemAcercaDe) {
             Intent intento = new Intent(getApplicationContext(), AcercaDeActivity.class);
