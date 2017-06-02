@@ -39,11 +39,11 @@ public class MisRestaurantes extends AppCompatActivity {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Restaurante").child(userEmail);
 
-        mAdapter = new FirebaseListAdapter<Restaurante>(this, Restaurante.class, android.R.layout.two_line_list_item,ref) {
+        mAdapter = new FirebaseListAdapter<Restaurante>(this, Restaurante.class, R.layout.busqueda_restaurante_lista,ref) {
             @Override
             protected void populateView(View view, Restaurante restaurante, int position) {
-                ((TextView) view.findViewById(android.R.id.text1)).setText(restaurante.getNombre());
-                ((TextView) view.findViewById(android.R.id.text2)).setText(restaurante.getDescripcion());
+                ((TextView) view.findViewById(R.id.restaurante_nombre)).setText(restaurante.getNombre());
+                ((TextView) view.findViewById(R.id.restaurante_descripcion)).setText(restaurante.getDescripcion());
             }
         };
         listView.setAdapter(mAdapter);

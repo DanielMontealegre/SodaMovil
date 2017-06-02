@@ -21,16 +21,25 @@ import com.example.usuario.sodamovil.AgregarComida;
 import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
 import com.example.usuario.sodamovil.BaseDeDatos.StorageDB;
 import com.example.usuario.sodamovil.Entidades.Comida;
+import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.MainActivity;
 import com.example.usuario.sodamovil.R;
 import com.example.usuario.sodamovil.VariablesGlobales;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.usuario.sodamovil.R.id.btnAgregarComida;
 import static com.example.usuario.sodamovil.R.id.miniatura_comida;
@@ -84,13 +93,8 @@ public class MenuFragmento extends Fragment {
             ;
 
         };
-        btnAgregarComida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intento = new Intent(getApplicationContext(), AgregarComida.class);
-                startActivity(intento);
-            }
-        });
+
+        esDuennoRestaurante(view);
 
         reciclador.setAdapter(mAdapter);
         return view;
@@ -102,7 +106,54 @@ public class MenuFragmento extends Fragment {
         mAdapter.cleanup();
     }
 
+    public void esDuennoRestaurante(final View view){
 
+        FirebaseAuth firebaseAuth;
+        firebaseAuth= FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        final DataBase db= DataBase.getInstance();
+        String  emailSinPunto= user.getEmail().replace(".","");
+        db.getmDatabaseReference().child("Restaurante").child(emailSinPunto).addValueEventListener(new ValueEventListener() {
+            boolean esDuenno;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Restaurante> restaurantes = new ArrayList<Restaurante>();
+                for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
+                    Restaurante rest = postSnapshot.getValue(Restaurante.class);
+                    restaurantes.add(rest);
+                }
+
+                for(Restaurante rest: restaurantes){
+                    if( rest.getCodigo().equals(VariablesGlobales.getInstance().getRestauranteActual().getCodigo()) ){
+                        esDuenno = true;
+                    }
+                }
+                FloatingActionButton btnAgregarComida= (FloatingActionButton) view.findViewById(R.id.btnFloatAgregarComida);
+                if(esDuenno){
+                    //btnAgregarComida.setVisibility(View.VISIBLE);
+                    btnAgregarComida.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intento = new Intent(getApplicationContext(), AgregarComida.class);
+                            startActivity(intento);
+                        }
+                    });
+                }
+                else{
+                    btnAgregarComida.setVisibility(View.INVISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
 
 
 

@@ -4,6 +4,9 @@ import com.example.usuario.sodamovil.Entidades.Horario;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by USUARIO on 20/04/2017.
  */
@@ -15,6 +18,7 @@ public class VariablesGlobales {
     public LatLng posicionAgregarRestaurante;
     private Horario horario;
     private Restaurante restauranteActual;
+    private List<Restaurante> restaurantesResultadoBuscar= new ArrayList<>();
 
 
     private static VariablesGlobales instance = null;
@@ -47,5 +51,13 @@ public class VariablesGlobales {
 
     public void setRestauranteActual(Restaurante restauranteActual) {
         this.restauranteActual = restauranteActual;
+    }
+
+    public List<Restaurante> getRestaurantesResultadoBuscar() {
+        return restaurantesResultadoBuscar;
+    }
+
+    public void setRestaurantesResultadoBuscar(List<Restaurante> restaurantesResultadoBuscar) {
+        this.restaurantesResultadoBuscar = restaurantesResultadoBuscar;
     }
 }// fin de la clase de variables globales
