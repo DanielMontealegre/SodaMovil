@@ -192,14 +192,13 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 
-<<<<<<< HEAD
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
     }
 
-=======
->>>>>>> refs/remotes/AndreyCastilo/master
+
 
 }

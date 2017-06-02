@@ -176,6 +176,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if( user != null ){
+            inicializarRestaurantes();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
         else{
