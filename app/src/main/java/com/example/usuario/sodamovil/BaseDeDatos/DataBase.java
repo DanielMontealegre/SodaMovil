@@ -16,9 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by USUARIO on 20/04/2017.
- */
+
 
 public class DataBase {
 
@@ -64,6 +62,7 @@ public class DataBase {
         String key = mDatabaseReference.child("Usuario").push().getKey();
         usuario.setIdFirebase(key);
         mDatabaseReference.child("Usuario").child(key).setValue(usuario.toMap());
+
     }
 
     public Restaurante agregarRestaurante(Restaurante restaurante, String email, final Bitmap imagenRestaurante, final ProgressDialog progressDialog) {

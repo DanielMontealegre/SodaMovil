@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.usuario.sodamovil.BaseDeDatos.DataBase;
 import com.example.usuario.sodamovil.Entidades.Comida;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
+import com.google.android.gms.appindexing.AndroidAppUri;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -32,6 +33,9 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URI;
+
+import okhttp3.internal.Platform;
 
 import retrofit2.http.HEAD;
 
@@ -47,6 +51,7 @@ public class AgregarComida extends AppCompatActivity {
     Button btnAgregarComida;
     Uri mCropImageUri;
     static int RESULT_LOAD_IMG=4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +95,7 @@ public class AgregarComida extends AppCompatActivity {
                     mCropImageUri = resultUri;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
+
                     }
                 }
                 else{
@@ -152,7 +157,6 @@ public class AgregarComida extends AppCompatActivity {
 
 
      */
-
 
     public void AgregarComida(){
         progressDialog.setMessage("Agregando comida...");
