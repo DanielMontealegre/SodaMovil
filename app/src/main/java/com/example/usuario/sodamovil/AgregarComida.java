@@ -1,5 +1,8 @@
 package com.example.usuario.sodamovil;
 
+import android.*;
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -30,6 +33,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import retrofit2.http.HEAD;
+
 import static com.example.usuario.sodamovil.AgregarRestauranteActivity.HORARIO_REQUEST;
 import static com.example.usuario.sodamovil.AgregarRestauranteActivity.RESULT_LOAD_IMG;
 
@@ -40,8 +45,8 @@ public class AgregarComida extends AppCompatActivity {
     Bitmap imagenComidaFirebase;
     ProgressDialog progressDialog;
     Button btnAgregarComida;
+    Uri mCropImageUri;
     static int RESULT_LOAD_IMG=4;
-    private Uri mCropImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,7 @@ public class AgregarComida extends AppCompatActivity {
                     mCropImageUri = resultUri;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
                     }
                 }
                 else{
@@ -123,6 +129,30 @@ public class AgregarComida extends AppCompatActivity {
             }
         }
     }
+
+
+
+    /*
+
+
+     boolean requirePermissions = false;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                    isUriRequiresPermissions(imageUri)) {
+
+                // request permissions and handle the result in onRequestPermissionsResult()
+                requirePermissions = true;
+                mCropImageUri = imageUri;
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            }
+
+            if (!requirePermissions) {
+                mCropImageView.setImageUriAsync(imageUri);
+            }
+
+
+     */
+
 
     public void AgregarComida(){
         progressDialog.setMessage("Agregando comida...");
@@ -164,11 +194,13 @@ public class AgregarComida extends AppCompatActivity {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMinCropWindowSize(0,0)
-                .setMinCropResultSize(260,260)
-                .setMaxCropResultSize(600,410)
+                .setMinCropResultSize(300,188)
+                .setMaxCropResultSize(500,378)
                 .start(this);
         // .setMinCropWindowSize(0,0)
     }
+
+
 
 
 }

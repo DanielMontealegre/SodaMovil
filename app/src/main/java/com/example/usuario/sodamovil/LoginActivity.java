@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static com.example.usuario.sodamovil.Entidades.DataHelper.inicializarRestaurantes;
 
 /**
  * A login screen that offers login via email/password.
@@ -187,8 +188,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         if (task.isSuccessful()) {
                             //start the profile activity
                             finish();
+                            inicializarRestaurantes();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
+
                             Toast.makeText(LoginActivity.this, "Error!!!", Toast.LENGTH_LONG).show();
                         }
                     }
