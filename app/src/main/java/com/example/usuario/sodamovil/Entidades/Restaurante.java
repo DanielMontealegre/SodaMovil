@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 
@@ -25,9 +23,10 @@ public class Restaurante {
     private Horario horario;
     private String  usuario ;
     private String telefono;
+    private String ubicacion;
 
 
-    public Restaurante(String codigo, String nombre, String descripcion, Bitmap imagen, Double latitudesH, Double latitudesV, Horario horario, String usuario,String telefono) {
+    public Restaurante(String codigo, String nombre, String descripcion, Bitmap imagen, Double latitudesH, Double latitudesV, Horario horario, String usuario,String telefono, String ubicacion) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -37,6 +36,7 @@ public class Restaurante {
         this.usuario=usuario;
         this.horario=horario;
         this.telefono=telefono;
+        this.ubicacion=ubicacion;
     }
 
     public Restaurante() {
@@ -49,6 +49,7 @@ public class Restaurante {
         this.horario= new Horario();
         this.usuario= "";
         this.telefono="";
+        this.ubicacion="";
     }
 
     public String getTelefono() {
@@ -133,7 +134,16 @@ public class Restaurante {
         result.put("latitudesV",  this.latitudesV);
         result.put("horario", this.horario);
         result.put("usuario", this.usuario);
+        result.put("telefono", this.telefono);
+        result.put("ubicacion",this.ubicacion);
         return result;
     }
 
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
 }
