@@ -74,6 +74,7 @@ public class MenuFragmento extends Fragment {
             public void onBindViewHolder(ComidaHolder viewHolder, int position) {
                 Comida model = getItem(position);
                 populateViewHolder(viewHolder, model, position);
+
             }
 
 

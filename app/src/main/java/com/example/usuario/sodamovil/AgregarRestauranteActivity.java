@@ -36,6 +36,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import retrofit2.http.HEAD;
+
 public class AgregarRestauranteActivity extends AppCompatActivity {
 
     EditText nombre_restaurante;
@@ -142,10 +144,10 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // app icon in action bar clicked; go home
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                limpiaForm();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -207,6 +209,7 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
         double latitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().latitude;
         double longitud= VariablesGlobales.getInstance().getPosicionAgregarRestaurante().longitude;
 
+
         if(VariablesGlobales.getInstance().getHorario()!=null){
             horario = VariablesGlobales.getInstance().getHorario();
         }
@@ -259,6 +262,9 @@ public class AgregarRestauranteActivity extends AppCompatActivity {
     public void limpiaForm(){
         nombre_restaurante.setText("");
         descripcion_restaurante.setText("");
+        ubicacion_restaurante.setText("");
+        telefono_restaurante.setText("");
+        horario_restaurante.setText("");
         VariablesGlobales.getInstance().posicionAgregarRestaurante=null;
     }
 
