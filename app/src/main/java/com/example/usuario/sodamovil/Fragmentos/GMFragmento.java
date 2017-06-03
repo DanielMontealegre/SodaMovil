@@ -77,6 +77,7 @@ import static com.twitter.sdk.android.Twitter.logOut;
 
 public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnInfoWindowClickListener  {
+
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -125,8 +126,6 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
     public void OnMenuItemClick(MenuItem item,View view){
         int id = item.getItemId();
         if (id == R.id.menuItemAgregarRestaurante) {
-          //  Intent intento = new Intent(getApplicationContext(), AgregarRestauranteActivity.class);
-         //   startActivity(intento);
             VariablesGlobales.getInstance().restauranteAgregar = null;
             VariablesGlobales.getInstance().posicionAgregarRestaurante =null;
             Intent intento = new Intent(getApplicationContext(), AgregarRestauranteNombre.class);
@@ -281,6 +280,7 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
         }
         restaurantes = new ArrayList<Restaurante>();
         pintarRestaurantes();
+        mMap.setOnInfoWindowClickListener(this);
 
         mMap.setOnInfoWindowClickListener(this);
     }
@@ -379,6 +379,7 @@ public class GMFragmento extends Fragment implements OnMapReadyCallback, GoogleA
             //You can add here other case statements according to your requirement.
         }
     }
+
 
 
     private void setupFloatingSearch() {

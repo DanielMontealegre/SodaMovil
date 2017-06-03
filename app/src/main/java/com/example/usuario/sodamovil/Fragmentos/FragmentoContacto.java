@@ -10,11 +10,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+
+import com.bumptech.glide.Glide;
+import com.example.usuario.sodamovil.BaseDeDatos.StorageDB;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.Manifest;
 import com.example.usuario.sodamovil.R;
 import com.example.usuario.sodamovil.VariablesGlobales;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.StorageReference;
+
+import retrofit2.http.HEAD;
+
+import static com.example.usuario.sodamovil.R.id.container;
+
 
 
 public class FragmentoContacto extends Fragment {
@@ -36,6 +47,7 @@ public class FragmentoContacto extends Fragment {
         return view; // debe comentar el otro return
 
     }
+
 
 
     public void OnclickDelImageView(View view) {
@@ -69,6 +81,7 @@ public class FragmentoContacto extends Fragment {
 
     }
 
+
     public void setRestaurante(View view){
         Restaurante restaurante= VariablesGlobales.getInstance().getRestauranteActual();
         if(restaurante != null){
@@ -86,4 +99,6 @@ public class FragmentoContacto extends Fragment {
         startActivity(i);
     }
     ;
+
 }
+
