@@ -45,10 +45,11 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/direccionAgregarRestaurante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Dirección"
-                android:id="@+id/direccionAgregarRestaurante"/>
+                android:editable="false"
+                android:hint="Dirección" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

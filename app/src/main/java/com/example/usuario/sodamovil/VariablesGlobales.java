@@ -19,6 +19,7 @@ public class VariablesGlobales {
     private Horario horario;
     private Restaurante restauranteActual;
     public Restaurante restauranteAgregar;
+    private String ubicacion;
     private List<Restaurante> restaurantesResultadoBuscar= new ArrayList<>();
 
 
@@ -60,5 +61,14 @@ public class VariablesGlobales {
 
     public void setRestaurantesResultadoBuscar(List<Restaurante> restaurantesResultadoBuscar) {
         this.restaurantesResultadoBuscar = restaurantesResultadoBuscar;
+    }
+
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 }// fin de la clase de variables globales
