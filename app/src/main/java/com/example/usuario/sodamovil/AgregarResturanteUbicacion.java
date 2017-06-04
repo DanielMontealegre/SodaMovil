@@ -140,6 +140,7 @@ public class AgregarResturanteUbicacion extends AppCompatActivity {
                 latlng = place.getLatLng();
                 direccion.setText(address);
                 ubicacion.setText("Editar");
+                vg.setUbicacion(address);
             }
         }
     }

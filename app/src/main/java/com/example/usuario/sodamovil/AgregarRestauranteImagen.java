@@ -144,11 +144,13 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
 
         double latitud= vg.getPosicionAgregarRestaurante().latitude;
         double longitud= vg.getPosicionAgregarRestaurante().longitude;
+        String ubicacion= vg.getUbicacion();
 
         final Restaurante restaurante = vg.restauranteAgregar;
 
         restaurante.setLatitudesH(latitud);//latitud
         restaurante.setLatitudesV(longitud);//longitud
+        restaurante.setUbicacion(ubicacion);
 
         int scrollX = scrollView.getScrollX();
         int scrollY = scrollView.getScrollY();
