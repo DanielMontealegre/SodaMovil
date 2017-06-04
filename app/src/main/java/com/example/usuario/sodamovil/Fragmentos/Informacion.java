@@ -114,6 +114,7 @@ public class Informacion extends Fragment {
                     .load(imaginesRestaurante)
                     .into(imagen);
             imagen.scrollTo(0,restaurante.getScrollY());
+
             NombreTW.setText(restaurante.getNombre());
             DescripcionTW.setText(restaurante.getDescripcion());
             HorarioTW.setText(restaurante.getHorario().toString());

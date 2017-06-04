@@ -68,10 +68,8 @@ public class StorageDB {
                 //Uri downloadUrl = taskSnapshot.getDownloadUrl();
             }
         });
-
-
-
     }
+
 
     public void guardarImagenComidaBitMap(Bitmap bitmap, String codigoComida){
         StorageReference nuevaImagen = imaginesComidas.child(codigoComida);
@@ -92,9 +90,7 @@ public class StorageDB {
             }
         });
     }
-
-
-
+    
     public void setImagenRestauranteEnImageView(Restaurante restaurante, final ImageView view){
         StorageDB.getInstance().imaginesRestaurante.child(restaurante.getCodigo()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

@@ -110,4 +110,18 @@ public class DataBase {
         childUpdates.put("/Usuario/" + usuario.getIdFirebase(), usuario.toMap());
         mDatabaseReference.updateChildren(childUpdates);
     }
+
+    public void actualizarRestaurante(Restaurante restaurante,String email) {
+        String emailSinpunto;
+        if(email.contains("."))
+            emailSinpunto = email.replace(".","");
+        else emailSinpunto=email;
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> childUpdatesTodosRestaurantes = new HashMap<>();
+        Map<String, Object> Valores = new HashMap<>();
+        childUpdates.put("/Restaurante/" + emailSinpunto +"/" +restaurante.getCodigo(), restaurante.toMap());
+        childUpdatesTodosRestaurantes.put("/Restaurantes_Todos/" +restaurante.getCodigo(), restaurante.toMap());
+        mDatabaseReference.updateChildren(childUpdates);
+        mDatabaseReference.updateChildren(childUpdatesTodosRestaurantes);
+    }
 }
