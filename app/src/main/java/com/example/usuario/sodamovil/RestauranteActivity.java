@@ -11,13 +11,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.usuario.sodamovil.BaseDeDatos.StorageDB;
 import com.example.usuario.sodamovil.Fragmentos.FragmentoContacto;
 import com.example.usuario.sodamovil.Fragmentos.GMFragmento;
 import com.example.usuario.sodamovil.Fragmentos.Informacion;
 import com.example.usuario.sodamovil.Fragmentos.MenuFragmento;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.StorageReference;
 
 public class RestauranteActivity extends AppCompatActivity {
 

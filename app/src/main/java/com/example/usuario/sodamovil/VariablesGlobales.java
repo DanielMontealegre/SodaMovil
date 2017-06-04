@@ -1,6 +1,7 @@
 package com.example.usuario.sodamovil;
 
 import com.example.usuario.sodamovil.Entidades.Comida;
+import android.view.View;
 import com.example.usuario.sodamovil.Entidades.Horario;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,7 +22,9 @@ public class VariablesGlobales {
     private Restaurante restauranteActual;
     private Comida comidaActual;
     public Restaurante restauranteAgregar;
+    private String ubicacion;
     private List<Restaurante> restaurantesResultadoBuscar= new ArrayList<>();
+    public View vista;
 
 
     private static VariablesGlobales instance = null;
@@ -70,5 +73,12 @@ public class VariablesGlobales {
 
     public void setComidaActual(Comida comidaActual) {
         this.comidaActual = comidaActual;
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 }// fin de la clase de variables globales

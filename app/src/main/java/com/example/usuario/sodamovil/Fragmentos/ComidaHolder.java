@@ -21,7 +21,7 @@ public   class ComidaHolder extends RecyclerView.ViewHolder {
         mView=v;
         nombre = (TextView) v.findViewById(R.id.nombre_comida);
         precio = (TextView) v.findViewById(R.id.precio_comida);
-        imagen = (ImageView) v.findViewById(miniatura_comida);
+        imagen = (ImageView) v.findViewById(R.id.miniatura_comida);
     }
 
 

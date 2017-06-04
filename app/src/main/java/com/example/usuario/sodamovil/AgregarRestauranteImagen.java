@@ -35,6 +35,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import es.dmoral.toasty.Toasty;
+
 import static com.example.usuario.sodamovil.AgregarRestauranteActivity.HORARIO_REQUEST;
 import static com.example.usuario.sodamovil.AgregarRestauranteActivity.PLACE_PICKER_REQUEST;
 
@@ -58,16 +60,8 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
         btnAgregar = (Button) findViewById(R.id.botonAgregarRestaurante);
         progressDialog = new ProgressDialog(this);
         vg=VariablesGlobales.getInstance();
-        isBlockedScrollView=false;
         scrollView = (ScrollView) findViewById(R.id.scrollView);
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                return isBlockedScrollView;
-            }
-        });
         imagenRestauranteButtonEdit.setOnClickListener(new View.OnClickListener(){
 
 
@@ -75,7 +69,7 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
 
             public void onClick(View arg0) {
                 getImageFromGallery();
-                isBlockedScrollView=true;
+                scrollView.scrollTo(0,0);
             }
 
 
@@ -91,9 +85,7 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
             @Override
 
             public void onClick(View arg0) {
-
-                isBlockedScrollView = !isBlockedScrollView;
-                ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+                scrollView.scrollTo(0,0);
                 Mensaje("X: "+scrollView.getScrollX()+"  Y: "+scrollView.getScrollY());
             }
 
@@ -152,11 +144,13 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
 
         double latitud= vg.getPosicionAgregarRestaurante().latitude;
         double longitud= vg.getPosicionAgregarRestaurante().longitude;
+        String ubicacion= vg.getUbicacion();
 
         final Restaurante restaurante = vg.restauranteAgregar;
 
         restaurante.setLatitudesH(latitud);//latitud
         restaurante.setLatitudesV(longitud);//longitud
+        restaurante.setUbicacion(ubicacion);
 
         int scrollX = scrollView.getScrollX();
         int scrollY = scrollView.getScrollY();
@@ -171,7 +165,7 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
                 if(dataSnapshot.hasChildren()) {
                     for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
                         Usuario user = postSnapshot.getValue(Usuario.class);
-                        Mensaje("Restaurante agregado exitosamente");
+                        MensajeSuccess("Restaurante agregado exitosamente");
                         if(imagenRestaurante !=null){
                             db.agregarRestaurante(restaurante,user.getCorreo(),imagenRestaurante,progressDialog);
                         }
@@ -190,5 +184,9 @@ public class AgregarRestauranteImagen extends AppCompatActivity {
                 Mensaje("No habia nada!");
             }
         });
+    }
+
+    public void MensajeSuccess(String mensaje){
+        Toasty.success(this, mensaje, Toast.LENGTH_SHORT, true).show();
     }
 }

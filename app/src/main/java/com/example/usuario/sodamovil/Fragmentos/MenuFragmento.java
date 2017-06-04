@@ -89,7 +89,6 @@ public class MenuFragmento extends Fragment {
                 Glide.with(viewHolder.itemView.getContext())
                         .using(new FirebaseImageLoader())
                         .load(imaginesRestaurante)
-                        .centerCrop()
                         .into(viewHolder.imagen);
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {

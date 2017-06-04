@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Teléfono"
-                android:inputType="textMultiLine" />
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
         <Button

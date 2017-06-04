@@ -7,12 +7,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.usuario.sodamovil.BaseDeDatos.StorageDB;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MisRestaurantes extends AppCompatActivity {
     FirebaseListAdapter mAdapter;
@@ -44,6 +51,15 @@ public class MisRestaurantes extends AppCompatActivity {
             protected void populateView(View view, Restaurante restaurante, int position) {
                 ((TextView) view.findViewById(R.id.restaurante_nombre)).setText(restaurante.getNombre());
                 ((TextView) view.findViewById(R.id.restaurante_descripcion)).setText(restaurante.getDescripcion());
+                CircleImageView imagen = (CircleImageView) view.findViewById(R.id.imgMiRestaurante);
+                StorageReference imaginesRestaurante = StorageDB.getInstance().imaginesRestaurante.child(restaurante.getCodigo());
+                //-KkdQF54Mr5Xj4cCycUd
+                //-KkdPFHZin_6zmo9r7va
+
+                Glide.with(imagen.getContext())
+                        .using(new FirebaseImageLoader())
+                        .load(imaginesRestaurante)
+                        .into(imagen);
             }
         };
         listView.setAdapter(mAdapter);
