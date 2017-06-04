@@ -16,6 +16,8 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,6 +83,67 @@ public class AgregarComida extends AppCompatActivity {
                 getImageFromGallery();
             }
         });
+
+        btnAgregarComida.setEnabled(false);
+        btnAgregarComida.setAlpha(.5f);
+
+        nombreComida.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() > 0 && precioComida.getText().toString().length()>0  && descripcionComida.getText().toString().length()>0 ){
+                    btnAgregarComida.setEnabled(true);
+                    btnAgregarComida.setAlpha(1);
+                }
+                else{
+                    btnAgregarComida.setEnabled(false);
+                    btnAgregarComida.setAlpha(.5f);
+                }}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        precioComida.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() > 0 && nombreComida.getText().toString().length()>0  && descripcionComida.getText().toString().length()>0 ){
+                    btnAgregarComida.setEnabled(true);
+                    btnAgregarComida.setAlpha(1);
+                }
+                else{
+                    btnAgregarComida.setEnabled(false);
+                    btnAgregarComida.setAlpha(.5f);
+                }}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        descripcionComida.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() > 0 && nombreComida.getText().toString().length()>0  && precioComida.getText().toString().length()>0 ){
+                    btnAgregarComida.setEnabled(true);
+                    btnAgregarComida.setAlpha(1);
+                }
+                else{
+                    btnAgregarComida.setEnabled(false);
+                    btnAgregarComida.setAlpha(.5f);
+                }}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
 
     }
 

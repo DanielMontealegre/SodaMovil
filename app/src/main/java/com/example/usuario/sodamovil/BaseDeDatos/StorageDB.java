@@ -90,7 +90,7 @@ public class StorageDB {
             }
         });
     }
-    
+
     public void setImagenRestauranteEnImageView(Restaurante restaurante, final ImageView view){
         StorageDB.getInstance().imaginesRestaurante.child(restaurante.getCodigo()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
