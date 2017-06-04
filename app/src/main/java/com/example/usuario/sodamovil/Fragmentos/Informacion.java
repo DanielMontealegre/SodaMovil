@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.usuario.sodamovil.BaseDeDatos.StorageDB;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.R;
@@ -51,8 +54,21 @@ public class Informacion extends Fragment {
             Glide.with(imagen.getContext())
                     .using(new FirebaseImageLoader())
                     .load(imaginesRestaurante)
+                    .listener(new RequestListener<StorageReference, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, StorageReference model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, StorageReference model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+
                     .centerCrop()
-                    .into(imagen);
+                    .into(imagen)
+            ;
 
 
             NombreTW.setText(restaurante.getNombre());
