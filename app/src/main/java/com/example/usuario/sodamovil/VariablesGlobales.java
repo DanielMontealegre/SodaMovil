@@ -72,7 +72,7 @@ public class VariablesGlobales {
     }
 
     public void setComidaActual(Comida comidaActual) {
-        this.comidaActual = comidaActual;
+        this.comidaActual = comidaActual;}
 
     public String getUbicacion() {
         return ubicacion;
