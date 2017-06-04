@@ -1,15 +1,24 @@
 package com.example.usuario.sodamovil.Fragmentos;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.usuario.sodamovil.BaseDeDatos.StorageDB;
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 import com.example.usuario.sodamovil.R;
@@ -20,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 
 import static com.example.usuario.sodamovil.R.id.container;
 import static com.example.usuario.sodamovil.R.id.textView;
+import static com.google.android.gms.maps.CameraUpdateFactory.scrollBy;
 
 
 public class Informacion extends Fragment {
@@ -31,19 +41,33 @@ public class Informacion extends Fragment {
                              Bundle savedInstanceState) {
         View inf = inflater.inflate(R.layout.fragmento_informacion, container, false);
         setRestaurante(inf);
+        ScrollView scroll = (ScrollView) inf.findViewById(R.id.scrollViewInfo);
+        VariablesGlobales vg = VariablesGlobales.getInstance();
+        vg.vista = inf;
+        scroll.scrollTo(0,vg.getRestauranteActual().getScrollY());
         return inf;
     }
 
+
+
     public void setRestaurante(View view){
-        Restaurante restaurante=VariablesGlobales.getInstance().getRestauranteActual();
+        final Restaurante restaurante=VariablesGlobales.getInstance().getRestauranteActual();
         if(restaurante != null){
 
             TextView NombreTW = (TextView) view.findViewById(R.id.NombreRest);
-            TextView DescripcionTW = (TextView) view.findViewById(R.id.DescripRest);
+             TextView DescripcionTW = (TextView) view.findViewById(R.id.DescripRest);
             TextView UbicacionTW = (TextView)view.findViewById(R.id.UbicacionRest);
             TextView HorarioTW = (TextView) view.findViewById(R.id.HorarioRest);
             ImageView imagen= (ImageView) view.findViewById(R.id.FotoRestaurante);
+            final ScrollView scroll = (ScrollView) view.findViewById(R.id.scrollViewInfo);
 
+            scroll.setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
             StorageReference imaginesRestaurante = StorageDB.getInstance().imaginesRestaurante.child(restaurante.getCodigo());
             //-KkdQF54Mr5Xj4cCycUd
             //-KkdPFHZin_6zmo9r7va
@@ -51,15 +75,12 @@ public class Informacion extends Fragment {
             Glide.with(imagen.getContext())
                     .using(new FirebaseImageLoader())
                     .load(imaginesRestaurante)
-                    .centerCrop()
                     .into(imagen);
-
-
+            imagen.scrollTo(0,restaurante.getScrollY());
             NombreTW.setText(restaurante.getNombre());
             DescripcionTW.setText(restaurante.getDescripcion());
             HorarioTW.setText(restaurante.getHorario().toString());
-            UbicacionTW.setText("Aqui va la ubicacion del restaurante:"+restaurante.getCodigo());
-
+            UbicacionTW.setText(restaurante.getUbicacion());
         }
     }
 }

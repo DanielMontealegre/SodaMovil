@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.usuario.sodamovil.Entidades.Restaurante;
 
@@ -41,11 +42,14 @@ public class AgregarRestauranteNombre extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(s.length() > 0)
+                if(s.length() > 0){
                     btnIrAInfoGeneral.setEnabled(true);
-                else
+                    btnIrAInfoGeneral.setAlpha(1);
+                }
+                else{
                     btnIrAInfoGeneral.setEnabled(false);
-
+                    btnIrAInfoGeneral.setAlpha(.5f);
+                }
             }
         });
 
@@ -79,4 +83,9 @@ public class AgregarRestauranteNombre extends AppCompatActivity {
 
 
     }
+
+
+
+    public void Mensaje(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
 }

@@ -43,6 +43,7 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
     private Hora horaCerrar;
     private Horario horario;
     private VariablesGlobales vg;
+    private Button btnSiguiente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,16 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
         tvVie = (TextView) findViewById(R.id.tvVie);
         tvSab = (TextView) findViewById(R.id.tvSab);
         tvDom = (TextView) findViewById(R.id.tvDom);
+        btnSiguiente = (Button) findViewById(R.id.btnFinalizar);
         horaAbrir = new Hora(12,0);
         horaCerrar = new Hora(20,0);
         horario= new Horario();
+        btnSiguiente.setEnabled(false);
+        btnSiguiente.setAlpha(.5f);
         if(vg.restauranteAgregar.getHorario()!=null){
             horario = vg.restauranteAgregar.getHorario();
+            btnSiguiente.setEnabled(true);
+            btnSiguiente.setAlpha(1);
         }
         tvHoraAbrir= (TextView) findViewById(R.id.tvHoraAbrir);
 
@@ -97,7 +103,6 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
         Button MiButton = (Button) findViewById(R.id.buttonAgregarHora);
 
 
-
         MiButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {
@@ -112,18 +117,14 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
         });
 
 
-        Button MiButton2 = (Button) findViewById(R.id.btnFinalizar);
-
         //Programamos el evento onclick
 
-        MiButton2.setOnClickListener(new View.OnClickListener(){
+        btnSiguiente.setOnClickListener(new View.OnClickListener(){
 
             @Override
 
             public void onClick(View arg0) {
-                Intent output = new Intent();
-                setResult(RESULT_OK, output);
-                finish();
+            pasarAUbicacion();
             }
 
         });
@@ -147,6 +148,16 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
 
         AdaptadorHorario adapter = new AdaptadorHorario(horario);
         rv.setAdapter(adapter);
+    }
+
+    public void pasarAUbicacion(){
+        if(horario.getDias().size()>0){
+            vg.restauranteAgregar.setHorario(horario);
+        Intent intento = new Intent(this, AgregarResturanteUbicacion.class);
+        startActivity(intento);
+        }else{
+            actualizaEstadoBoton();
+        }
     }
 
     @Override
@@ -245,7 +256,18 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
         }
 
         horario.setDias(nuevoHorario);
-        VariablesGlobales.getInstance().setHorario(horario);
+        actualizaEstadoBoton();
+    }
+
+    public void actualizaEstadoBoton() {
+        if(horario.getDias().size()<=0){
+            btnSiguiente.setEnabled(false);
+            btnSiguiente.setAlpha(.5f);
+        }
+        else{
+            btnSiguiente.setEnabled(true);
+            btnSiguiente.setAlpha(1);
+        }
     }
 
     public void OnclickDelTextView(int ref) {
@@ -315,9 +337,7 @@ public class AgregarHorarioRestauranteActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_add_hours:
-                vg.restauranteAgregar.setHorario(horario);
-                Intent intento = new Intent(this, AgregarResturanteUbicacion.class);
-                startActivity(intento);
+                pasarAUbicacion();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
