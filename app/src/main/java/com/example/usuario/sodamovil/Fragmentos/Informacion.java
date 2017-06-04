@@ -77,12 +77,7 @@ public class Informacion extends Fragment {
         return false;
     }
 
-        ScrollView scroll = (ScrollView) inf.findViewById(R.id.scrollViewInfo);
-        VariablesGlobales vg = VariablesGlobales.getInstance();
-        vg.vista = inf;
-        scroll.scrollTo(0,vg.getRestauranteActual().getScrollY());
-        return inf;
-    }
+
 
 
     public void setRestaurante(View view){
